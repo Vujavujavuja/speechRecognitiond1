@@ -48,5 +48,13 @@ plt.plot(min_time, min_amp, 'bo', label='Min', markersize=3)
 
 plt.title('Waveform')
 plt.xlabel('Time')
-plt.show()
 
+# average amplitude
+avg_amp = np.mean(np.abs(signal))
+print('Average Amplitude:', avg_amp)
+plt.axhline(avg_amp, color='purple', linestyle='--', label='Average Amplitude', linewidth=0.5)
+plt.axhline(-avg_amp, color='purple', linestyle='--', linewidth=0.5)
+
+plt.legend()
+
+plt.show()
