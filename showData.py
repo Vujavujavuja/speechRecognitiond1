@@ -30,7 +30,7 @@ rms_time = [
 analytic_signal = hilbert(signal)
 amplitude_envelope = np.abs(analytic_signal)
 
-plt.figure(figsize=(15, 4))
+plt.figure(figsize=(15, 5))
 
 # show bcs plot is deprecated
 librosa.display.waveshow(signal, sr=sample_rate, alpha=0.5)
@@ -50,6 +50,16 @@ min_time = np.argmin(signal) / sample_rate
 min_abs_time = np.argmin(np.abs(signal)) / sample_rate
 
 
+avg_amp = np.mean(np.abs(signal))
+# speech detection
+flag = 0
+for i in range(len(rms)):
+    if rms[i] > avg_amp and flag == 0:
+        plt.axvline(i * frame_size / sample_rate, color='g', linewidth=0.5)
+        flag = 1
+    elif rms[i] < 0.005 and flag == 1:
+        plt.axvline(i * frame_size / sample_rate, color='r', linewidth=0.5)
+        flag = 0
 
 # plt.plot(peaks / sample_rate, signal[peaks], 'ro', label='Detected Peaks', markersize=5)
 # plt.plot(valleys / sample_rate, signal[valleys], 'yo', label='Detected Valleys', markersize=5)
@@ -75,7 +85,6 @@ plt.title('Waveform')
 plt.xlabel('Time')
 
 # average amplitude
-avg_amp = np.mean(np.abs(signal))
 print('Average Amplitude:', avg_amp)
 plt.axhline(avg_amp, color='purple', linestyle='--', label='Average Amplitude', linewidth=0.5)
 plt.axhline(-avg_amp, color='purple', linestyle='--', linewidth=0.5)
