@@ -112,12 +112,21 @@ plt.xlabel('Time')
 plt.legend()
 plt.show()
 
-# Spectrogram
+# Spectrogram and pYin
 D = librosa.amplitude_to_db(np.abs(librosa.stft(signal)), ref=np.max)
+
+f0, voiced_flag, voiced_probs = librosa.pyin(
+    signal, fmin=librosa.note_to_hz('C2'), fmax=librosa.note_to_hz('C7')
+)
+
+times = librosa.times_like(f0, sr=sample_rate)
+
 plt.figure(figsize=(15, 5))
-librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log')
+librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log', cmap='magma')
 plt.colorbar(format='%+2.0f dB')
 plt.title('Spectrogram')
+plt.plot(times, f0, color='cyan', linewidth=2, label='F0 (Fundamental Frequency)')
+plt.legend(loc="upper right")
 plt.show()
 
 def plot_spectrogram(s, name):
@@ -131,4 +140,5 @@ def plot_spectrogram(s, name):
     plt.show()
 
 # plot_spectrogram(signal, 'TED Talk')
+
 
