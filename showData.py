@@ -95,10 +95,10 @@ plt.show()
 
 # ZCR
 def calculate_zcr(signal_zcr, frame_length, hop_length):
-    # Calculate ZCR for each frame
+    # calculate zero crossing rate
     z = [
-        np.mean(np.abs(np.diff(np.sign(signal[i:i+frame_length])))) / 2
-        for i in range(0, len(signal) - frame_length + 1, hop_length)
+        np.mean(np.abs(np.diff(np.sign(signal_zcr[i:i+frame_length])))) / 2
+        for i in range(0, len(signal_zcr) - frame_length + 1, hop_length)
     ]
     return np.array(z)
 
@@ -113,6 +113,13 @@ plt.legend()
 plt.show()
 
 # Spectrogram
+D = librosa.amplitude_to_db(np.abs(librosa.stft(signal)), ref=np.max)
+plt.figure(figsize=(15, 5))
+librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log')
+plt.colorbar(format='%+2.0f dB')
+plt.title('Spectrogram')
+plt.show()
+
 def plot_spectrogram(s, name):
     """Compute power spectrogram with Short-Time Fourier Transform and plot result."""
     spectrogram = librosa.amplitude_to_db(librosa.stft(s))
@@ -123,5 +130,5 @@ def plot_spectrogram(s, name):
     plt.xlabel("Time")
     plt.show()
 
-plot_spectrogram(signal, 'TED Talk')
+# plot_spectrogram(signal, 'TED Talk')
 
