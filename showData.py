@@ -32,6 +32,21 @@ librosa.display.waveshow(signal, sr=sample_rate, alpha=0.5)
 
 plt.plot(rms_time, rms, color='r', label='RMS', linewidth=0.5)
 
+# min max from signal array
+max_amp = np.max(signal)
+min_amp = np.min(signal)
+min_abs_amp = np.min(np.abs(signal))
+
+# when is min and max
+max_time = np.argmax(signal) / sample_rate
+min_time = np.argmin(signal) / sample_rate
+min_abs_time = np.argmin(np.abs(signal)) / sample_rate
+
+plt.plot(max_time, max_amp, 'go', label='Max', markersize=3)
+plt.plot(min_time, min_amp, 'bo', label='Min', markersize=3)
+# plt.plot(min_abs_time, min_abs_amp, 'ro', label='Min Abs')
+
 plt.title('Waveform')
 plt.xlabel('Time')
 plt.show()
+
