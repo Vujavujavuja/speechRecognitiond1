@@ -113,10 +113,15 @@ plt.legend()
 plt.show()
 
 # Spectrogram
-D = librosa.amplitude_to_db(np.abs(librosa.stft(signal)), ref=np.max)
-plt.figure(figsize=(15, 5))
-librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log')
-plt.colorbar(format='%+2.0f dB')
-plt.title('Spectrogram')
-plt.show()
+def plot_spectrogram(s, name):
+    """Compute power spectrogram with Short-Time Fourier Transform and plot result."""
+    spectrogram = librosa.amplitude_to_db(librosa.stft(s))
+    plt.figure(figsize=(20, 15))
+    librosa.display.specshow(spectrogram, y_axis="log")
+    plt.colorbar(format="%+2.0f dB")
+    plt.title(f"Log-frequency power spectrogram for {name}")
+    plt.xlabel("Time")
+    plt.show()
+
+plot_spectrogram(signal, 'TED Talk')
 
