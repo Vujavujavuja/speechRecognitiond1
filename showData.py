@@ -111,3 +111,12 @@ plt.title('Zero Crossing Rate')
 plt.xlabel('Time')
 plt.legend()
 plt.show()
+
+# Spectrogram
+D = librosa.amplitude_to_db(np.abs(librosa.stft(signal)), ref=np.max)
+plt.figure(figsize=(15, 5))
+librosa.display.specshow(D, sr=sample_rate, x_axis='time', y_axis='log')
+plt.colorbar(format='%+2.0f dB')
+plt.title('Spectrogram')
+plt.show()
+
