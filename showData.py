@@ -92,3 +92,22 @@ plt.axhline(-avg_amp, color='purple', linestyle='--', linewidth=0.5)
 plt.legend()
 
 plt.show()
+
+# ZCR
+def calculate_zcr(signal_zcr, frame_length, hop_length):
+    # Calculate ZCR for each frame
+    z = [
+        np.mean(np.abs(np.diff(np.sign(signal[i:i+frame_length])))) / 2
+        for i in range(0, len(signal) - frame_length + 1, hop_length)
+    ]
+    return np.array(z)
+
+zcr = calculate_zcr(signal, 256, 64)
+t = librosa.frames_to_time(np.arange(len(zcr)), sr=sample_rate, hop_length=64)
+
+plt.figure(figsize=(15, 5))
+plt.plot(t, zcr, label='ZCR', color='r')
+plt.title('Zero Crossing Rate')
+plt.xlabel('Time')
+plt.legend()
+plt.show()
