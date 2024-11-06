@@ -1,23 +1,19 @@
 import wave
 import numpy as np
+import librosa
+import librosa.display
 import matplotlib.pyplot as plt
 
 # file pat to open
-fp = 'data/voice.wav'
-wav = wave.open(fp, 'r')
+fp = 'data/debussy.wav'
 
-# get params
-frames = wav.readframes(-1)
-signal = np.frombuffer(frames, dtype='int16')
-fs = wav.getframerate()
-time = np.linspace(0, len(signal)/fs, num=len(signal))
+signal, sample_rate = librosa.load(fp, sr=None)
 
-# plot
-plt.figure()
-plt.plot(time, signal)
-plt.xlabel('Time [s]')
-plt.ylabel('Amplitude')
+plt.figure(figsize=(15, 4))
+
+# show bcs plot is deprecated
+librosa.display.waveshow(signal, sr=sample_rate, alpha=0.5)
+
 plt.title('Waveform')
-
+plt.xlabel('Time')
 plt.show()
-wav.close()
